@@ -10,29 +10,31 @@ using System.Collections.Concurrent;
 
 namespace BubblesBot.Modules
 {
-    public class AudioCommand : ModuleBase<SocketCommandContext>
+    public class AudioCommand : ModuleBase<ICommandContext>
     {
-        private ulong _botID = 317204089438076940;
-        [Command("join")]
-        public async Task SummonChannel()
+        private AudioService _service;
+        public AudioCommand(AudioService service)
         {
-            var channel = (Context.User as IGuildUser).VoiceChannel;
-            if (channel == null)
-            {
-                await Context.Channel.SendMessageAsync("User must be in a voice channel");
-                return;
-            }
-            var audioClient = await channel.ConnectAsync();
+            _service = service;
         }
-        /*
-         * 
-         * Doesn't work yet
-        [Command("dismiss")]
-        public async Task LeaveChannel()
+
+        [Command("join", RunMode = RunMode.Async)]
+        public async Task JoinCmd()
+        {           
+            await _service.JoinAudio(Context.Guild, (Context.User as IVoiceState).VoiceChannel);   
+        }
+
+        [Command("leave", RunMode = RunMode.Async)]
+        public async Task LeaveCmd()
         {
-            IAudioClient client;
-            await Context.Channel.SendMessageAsync((CC.TryGetValue((Context.User as IGuildUser).VoiceChannel.Id, out client) + ""));
+            await _service.LeaveAudio(Context.Guild);
         }
-        */
+        
+        [Command("add",RunMode = RunMode.Async)]
+        public async Task playAudio(string url)
+        {
+            await _service.PlayAudio(Context.Guild, (Context.Channel as IMessageChannel), url);
+        }
+        
     }
 }

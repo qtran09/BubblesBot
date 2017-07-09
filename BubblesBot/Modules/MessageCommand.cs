@@ -12,15 +12,26 @@ namespace BubblesBot.Modules
     public class MessageCommands : ModuleBase<SocketCommandContext>
     {
         [Command("e")]
-        public async Task echoWithMention(string msg)
+        public async Task echoWithMention([Remainder] string msg = null)
         {
-           await Context.Channel.SendMessageAsync(Context.User.Mention.ToString() + " " + msg);
+            if (msg == null)
+            {
+                await Context.Channel.SendMessageAsync("Write something");
+                return;
+            }
+           await Context.Channel.SendMessageAsync(Context.User.Mention + " " + msg);
         }
 
         [Command("enm")]
-        public async Task echoNoMention(string msg)
+        public async Task echoNoMention([Remainder]string msg = null)
         {
+
             await removeMessages(1);
+            if(msg == null)
+            {
+                await Context.Channel.SendMessageAsync("Write something");
+                return;
+            }
             await Context.Channel.SendMessageAsync(msg);
         }
 

@@ -14,16 +14,21 @@ namespace BubblesBot
     {
         private DiscordSocketClient _client;
         private CommandHandler _handler;
-        private string TOKEN = "MzE3MjA0MDg5NDM4MDc2OTQw.DA627A.nqv0LDKBK5THAsCaykNjXyfWZCs";
+        private string TOKEN = "MzE3MjA0MDg5NDM4MDc2OTQw.DEMrzg.al5QM8k_2o-TDS33msDO7OYxN5A";
         public static void Main(string[] args) => new Program().MainAsync().GetAwaiter().GetResult();
    
         public async Task MainAsync()
         {
             _client = new DiscordSocketClient();
+            _handler = new CommandHandler(_client);
             await _client.LoginAsync(TokenType.Bot, TOKEN);
             await _client.StartAsync();
-            _handler = new CommandHandler(_client);
             await Task.Delay(-1);
+        }
+        private Task Log(LogMessage msg)
+        {
+            Console.WriteLine(msg.ToString());
+            return Task.CompletedTask;
         }
     }
 }
