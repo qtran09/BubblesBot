@@ -14,7 +14,7 @@ namespace BubblesBot
     {
         private DiscordSocketClient _client;
         private CommandHandler _handler;
-        private string TOKEN = "MzE3MjA0MDg5NDM4MDc2OTQw.DEMrzg.al5QM8k_2o-TDS33msDO7OYxN5A";
+        private string TOKEN = "HIDING MY KEY";
         public static void Main(string[] args) => new Program().MainAsync().GetAwaiter().GetResult();
    
         public async Task MainAsync()
